@@ -1,0 +1,35 @@
+# Инфраструктура и зависимости
+node_modules/
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Сборка Next.js
+/.next/
+/out/
+/build
+
+# Переменные окружения (КРИТИЧНО ДЛЯ БЕЗОПАСНОСТИ)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Логи
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+
+# Тестирование
+/coverage
+
+# Системные файлы macOS / Windows
+.DS_Store
+*.pem
+Thumbs.db
+
+# Конфиги деплоя (Vercel)
+.vercel

@@ -1,0 +1,27 @@
+/* app/globals.css */
+@import "tailwindcss";
+
+@theme {
+  /* Переопределяем базовый шрифт без засечек на Supreme */
+  --font-sans: var(--font-supreme), ui-sans-serif, system-ui, sans-serif;
+  /* Добавляем кастомный класс font-heading для Nunito */
+  --font-heading: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+}
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-supreme), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    /* Меняем bg-white на bg-slate-100 */
+    @apply font-sans bg-slate-100 text-zinc-900;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-extrabold;
+  }
+}
