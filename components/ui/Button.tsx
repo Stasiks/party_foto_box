@@ -3,9 +3,9 @@ import Link from "next/link";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: "primary" | "secondary" | "outline";
+  variant?: "primary" | "secondary" | "outline" | "accent";
   size?: "sm" | "md" | "lg";
-  href?: string; // Если передан href, рендерим Link, иначе button
+  href?: string;
 }
 
 export const Button = ({ 
@@ -16,14 +16,13 @@ export const Button = ({
   className = "",
   ...props 
 }: ButtonProps) => {
-  // Базовые стили для всех кнопок
-  const baseStyles = "inline-flex items-center justify-center rounded-md font-heading transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2";
+  const baseStyles = "inline-flex items-center justify-center rounded-md font-heading transition-all focus:outline-none focus:ring-2 focus:ring-offset-2";
   
-  // Маппинг вариантов
   const variants = {
-    primary: "bg-red-500 text-white hover:bg-orange-500 shadow-sm",
-    secondary: "bg-zinc-100 text-zinc-900 hover:bg-zinc-200",
-    outline: "border-2 border-zinc-200 text-zinc-900 hover:border-red-500 hover:text-red-500",
+    primary: "bg-primary text-white hover:bg-primary-hover shadow-sm focus:ring-primary",
+    accent: "bg-accent text-white hover:bg-accent-hover shadow-sm focus:ring-accent",
+    secondary: "bg-zinc-100 text-zinc-900 hover:bg-zinc-200 focus:ring-zinc-500",
+    outline: "border-2 border-primary text-primary hover:bg-primary hover:text-white focus:ring-primary",
   };
 
   const sizes = {

@@ -2,23 +2,20 @@
 @import "tailwindcss";
 
 @theme {
-  /* Переопределяем базовый шрифт без засечек на Supreme */
-  --font-sans: var(--font-supreme), ui-sans-serif, system-ui, sans-serif;
-  /* Добавляем кастомный класс font-heading для Nunito */
-  --font-heading: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
-}
-
-@import "tailwindcss";
-
-@theme {
+  /* Шрифты */
   --font-sans: var(--font-supreme), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+
+  /* Семантическая палитра (обязательно для работы bg-primary и bg-accent) */
+  --color-primary: #E63946;
+  --color-primary-hover: #D62828;
+  --color-accent: #F77F00;
+  --color-accent-hover: #E85D04;
 }
 
 @layer base {
   body {
-    /* Меняем bg-white на bg-slate-100 */
-    @apply font-sans bg-slate-100 text-zinc-900;
+    @apply font-sans bg-slate-50 text-zinc-900;
   }
   
   h1, h2, h3, h4, h5, h6 {

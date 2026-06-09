@@ -117,7 +117,7 @@ export default function Startseite() {
               const Icon = feature.icon;
               return (
                 <div key={index} className="flex flex-col items-center text-center group">
-                  <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 text-red-500 group-hover:bg-red-500 group-hover:text-white transition-colors duration-300">
+                  <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 text-red-500 group-hover:bg-accent group-hover:text-white transition-colors duration-300">
                     <Icon className="w-8 h-8" />
                   </div>
                   <h3 className="font-heading text-xl text-zinc-900 mb-3">{feature.title}</h3>

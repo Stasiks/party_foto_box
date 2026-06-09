@@ -134,7 +134,7 @@ export const ProductLayout = ({
                 }`}
               >
                 {pkg.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-red-500 text-white px-4 py-1 rounded-full text-sm font-heading tracking-wide shadow-sm">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-white px-4 py-1 rounded-full text-sm font-heading tracking-wide shadow-sm">
                     Am beliebtesten
                   </div>
                 )}
