@@ -1,10 +1,10 @@
-// app/layout.tsx
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { ReactNode } from "react"; // Прямой импорт типа решает проблему с красным RootLayout
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import Script from "next/script";
+import Background from "@/components/ui/Background";
 
 const nunito = localFont({
   src: "./fonts/Nunito-ExtraBold.woff2",
@@ -23,7 +23,7 @@ const supreme = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://deinedomain.de"), // ВАЖНО: Заменить на реальный домен
+  metadataBase: new URL("https://foto-partybox.de"), // Обновил на твой реальный домен из OpenGraph
   title: {
     template: "%s | Party Foto Box Hamburg",
     default: "Fotobox Mieten Hamburg - Premium Event-Module",
@@ -49,9 +49,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{ children: ReactNode }>) {
   
-  // JSON-LD для локального бизнеса (SEO)
+  // Валидный JSON-LD для локального бизнеса
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -59,7 +59,8 @@ export default function RootLayout({
     "image": "https://foto-partybox.de/images/og-image.jpg",
     "description": "Premium Fotobox Vermietung in Hamburg & Norderstedt",
     "address": {
-      "@type": "22851",
+      "@type": "PostalAddress",
+      "postalCode": "22851",
       "addressLocality": "Norderstedt",
       "addressCountry": "DE"
     },
@@ -70,14 +71,14 @@ export default function RootLayout({
   return (
     <html lang="de" className={`${nunito.variable} ${supreme.variable}`}>
       <head>
-        <Script
-          id="json-ld-local-business"
+        {/* Нативный скрипт для SEO — работает быстрее и без ошибок гидратации */}
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-          strategy="beforeInteractive"
         />
       </head>
-      <body className="min-h-screen flex flex-col antialiased">
+      <body className="min-h-screen flex flex-col antialiased relative text-zinc-900">
+        <Background />
         <Header />
         <main className="flex-grow">
           {children}

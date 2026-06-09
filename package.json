@@ -14,12 +14,15 @@
     "next": "latest",
     "postcss": "^8.5.15",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.4",
     "tailwindcss": "latest",
     "typescript": "latest"
   }

@@ -1,64 +1,71 @@
-import { CheckCircle2 } from "lucide-react";
+import { PricingPackage } from "@/data/products";
 import { Button } from "@/components/ui/Button";
+import { Check } from "lucide-react";
 
-export interface PricingPackage {
-  name: string;
-  price: string;
-  popular?: boolean;
-  features: string[];
-}
-
-export const PricingGrid = ({ packages }: { packages: PricingPackage[] }) => {
+export default function PricingGrid({ packages }: { packages: PricingPackage[] }) {
   if (!packages || packages.length === 0) return null;
 
   return (
-    <section className="pb-24">
-      <hr className="border-t-2 border-dashed border-slate-200 mb-20" />
-      <div className="text-center mb-16">
-        <h2 className="text-4xl font-heading text-zinc-900 tracking-tight">Preise & Pakete</h2>
-        <p className="mt-4 text-zinc-500 font-sans text-lg">Transparente Konditionen für Hamburg und Umgebung.</p>
+    <section>
+      <div className="text-center max-w-2xl mx-auto mb-12">
+        <h2 className="text-3xl md:text-4xl font-heading text-zinc-900 mb-4">
+          Transparente Preise
+        </h2>
+        <p className="text-zinc-600">
+          Wählen Sie das passende Paket für Ihr Event. Keine versteckten Kosten.
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {packages.map((pkg, idx) => (
-          <div 
-            key={idx} 
-            className={`relative flex flex-col p-8 md:p-10 rounded-[2rem] transition-all bg-white ${
-              pkg.popular 
-                ? "border-2 border-red-500 shadow-xl scale-100 md:scale-105 z-10" 
-                : "border border-slate-200 shadow-sm"
-            }`}
-          >
-            {pkg.popular && (
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-red-500 text-white px-4 py-1 rounded-full text-sm font-heading tracking-wide">
-                Am beliebtesten
-              </div>
-            )}
-            <h3 className="text-2xl font-heading text-zinc-900 mb-2">{pkg.name}</h3>
-            <div className="flex items-baseline gap-1 mb-8">
-              <span className="text-4xl font-heading text-zinc-900">{pkg.price}</span>
-              <span className="text-zinc-500 font-sans">/ Event</span>
-            </div>
-            
-            <ul className="flex-grow space-y-4 mb-10">
-              {pkg.features.map((f, i) => (
-                <li key={i} className="flex items-start gap-3 font-sans text-zinc-600 text-sm">
-                  <CheckCircle2 className="w-5 h-5 text-red-500/80 flex-shrink-0" />
-                  <span>{f}</span>
-                </li>
-              ))}
-            </ul>
-
-            <Button 
-              variant={pkg.popular ? "primary" : "outline"} 
-              className="w-full rounded-xl py-4"
-              href="/kontakt"
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start">
+        {packages.map((pkg, idx) => {
+          const isPopular = pkg.popular;
+          
+          return (
+            <div 
+              key={idx} 
+              className={`relative p-8 md:p-10 rounded-[2.5rem] flex flex-col h-full transition-transform duration-300 hover:-translate-y-1 ${
+                isPopular 
+                  ? 'bg-zinc-950 text-white shadow-2xl shadow-zinc-900/20' 
+                  : 'bg-white border border-zinc-200 shadow-sm'
+              }`}
             >
-              Jetzt anfragen
-            </Button>
-          </div>
-        ))}
+              {isPopular && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-red-500 text-white px-4 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase">
+                  Bestseller
+                </div>
+              )}
+              
+              <h3 className={`text-xl font-heading mb-2 ${isPopular ? 'text-zinc-100' : 'text-zinc-900'}`}>
+                {pkg.name}
+              </h3>
+              
+              <div className="mb-8">
+                <span className="text-4xl md:text-5xl font-heading">{pkg.price}</span>
+              </div>
+              
+              <ul className="flex flex-col gap-4 mb-10 flex-1">
+                {pkg.features.map((feature, fIdx) => (
+                  <li key={fIdx} className="flex items-start gap-3">
+                    <Check 
+                      className={`w-5 h-5 flex-shrink-0 mt-0.5 ${isPopular ? 'text-red-500' : 'text-emerald-500'}`} 
+                    />
+                    <span className={`text-sm leading-relaxed ${isPopular ? 'text-zinc-300' : 'text-zinc-600'}`}>
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              
+              <Button 
+                variant={isPopular ? "primary" : "outline"} 
+                className="w-full rounded-xl py-6"
+              >
+                Jetzt buchen
+              </Button>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
-};
+}
