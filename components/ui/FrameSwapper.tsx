@@ -1,9 +1,10 @@
+// components/ui/FrameSwapper.tsx
 "use client";
 
 import { useState } from "react";
 import Image from "next/image";
 
-interface Frame {
+export interface Frame {
   name: string;
   overlayUrl: string;
 }
@@ -11,55 +12,71 @@ interface Frame {
 interface FrameSwapperProps {
   basePhotoUrl: string;
   frames: Frame[];
+  // Позволяет задать любые пропорции извне. По умолчанию - узкое портретное фото (10x15)
+  aspectRatio?: string; 
 }
 
-export const FrameSwapper = ({ basePhotoUrl, frames }: FrameSwapperProps) => {
+export const FrameSwapper = ({ 
+  basePhotoUrl, 
+  frames, 
+  aspectRatio = "aspect-[2/3]" // Узкий формат по умолчанию
+}: FrameSwapperProps) => {
   const [activeFrame, setActiveFrame] = useState<Frame>(frames[0]);
+  const [isImageLoading, setIsImageLoading] = useState(false);
+
+  // Обработчик для анимации легкого "мерцания" при смене рамки
+  const handleFrameChange = (frame: Frame) => {
+    if (activeFrame.name === frame.name) return;
+    setIsImageLoading(true);
+    setActiveFrame(frame);
+    setTimeout(() => setIsImageLoading(false), 200);
+  };
 
   return (
-    <div className="flex flex-col items-center bg-slate-50 p-6 md:p-8 rounded-[2rem] border border-slate-100 shadow-sm w-full">
+    <div className="flex flex-col items-center bg-white p-6 md:p-8 rounded-[2rem] border border-slate-100 shadow-sm w-full max-w-2xl mx-auto">
       
-      {/* Контейнер превью */}
-      <div className="relative w-full max-w-sm aspect-[3/4] bg-zinc-200 rounded-xl overflow-hidden shadow-md">
+      {/* Контейнер превью с динамическими пропорциями */}
+      <div 
+        className={`relative w-full max-w-[280px] ${aspectRatio} bg-zinc-200 rounded-sm overflow-hidden shadow-xl ring-4 ring-white transition-opacity duration-200 ${isImageLoading ? 'opacity-80' : 'opacity-100'}`}
+      >
         {/* Базовое фото (фон) */}
         <Image 
           src={basePhotoUrl} 
-          alt="Fotobox Beispiel" 
+          alt="Fotobox Basis Foto" 
           fill 
+          sizes="(max-width: 768px) 280px, 280px"
           className="object-cover"
         />
+        
         {/* Прозрачная рамка (PNG Overlay) */}
         <Image 
           src={activeFrame.overlayUrl} 
           alt={`Rahmen: ${activeFrame.name}`} 
           fill 
+          sizes="(max-width: 768px) 280px, 280px"
           className="absolute inset-0 z-10 object-contain pointer-events-none"
         />
-        
-        {/* Заглушка, если картинок еще нет */}
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/80 p-4 text-center text-sm font-sans text-zinc-500 border-2 border-dashed border-zinc-400 m-4 rounded-lg">
-          Для работы демо нужны: <br/>1. Базовое фото ({basePhotoUrl})<br/>2. Прозрачные рамки PNG
-        </div>
       </div>
 
       {/* Элементы управления */}
-      <div className="mt-8 flex flex-wrap justify-center gap-3">
+      <div className="mt-10 flex flex-wrap justify-center gap-3">
         {frames.map((frame) => (
           <button
             key={frame.name}
-            onClick={() => setActiveFrame(frame)}
-            className={`px-5 py-2.5 rounded-full font-sans text-sm font-medium transition-all duration-300 ${
+            onClick={() => handleFrameChange(frame)}
+            className={`px-6 py-2.5 rounded-full font-sans text-sm font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:ring-offset-2 ${
               activeFrame.name === frame.name
                 ? "bg-zinc-900 text-white shadow-md scale-105"
-                : "bg-white text-zinc-600 border border-slate-200 hover:border-zinc-400 hover:text-zinc-900"
+                : "bg-slate-50 text-zinc-600 border border-slate-200 hover:border-zinc-300 hover:text-zinc-900 hover:bg-white"
             }`}
           >
             {frame.name}
           </button>
         ))}
       </div>
-      <p className="mt-4 text-xs font-sans text-zinc-400 text-center max-w-xs">
-        * Das Layout wird individuell an Ihr Event und Corporate Design angepasst.
+      
+      <p className="mt-6 text-xs font-sans text-zinc-400 text-center max-w-sm leading-relaxed">
+        * Das ist nur ein kleines Preview. Das finale Druck-Layout wird individuell an Ihr Event und Corporate Design angepasst.
       </p>
     </div>
   );
